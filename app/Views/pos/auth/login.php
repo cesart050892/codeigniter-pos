@@ -18,14 +18,14 @@ Login
                     <div class="col-lg-6">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Sign in!</h1>
                             </div>
                             <form class="user">
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                    <input type="user" name="username" class="form-control form-control-user" id="exampleInputUser" aria-describedby="userHelp" placeholder="Username">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                    <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox small">
@@ -34,16 +34,7 @@ Login
                                             Me</label>
                                     </div>
                                 </div>
-                                <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                    Login
-                                </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Login with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                </a>
+                                <button class="btn btn-primary btn-user btn-block" type="submit">Login</button>
                             </form>
                             <hr>
                             <div class="text-center">
@@ -62,4 +53,32 @@ Login
 
 </div>
 <!-- End Outer Row -->
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+    $(function() {
+        var base_url = window.location.origin + '/';
+        $('form').submit(function(e) {
+            e.preventDefault();
+            userData = $(this).serialize()
+            $.ajax({
+                type: "POST",
+                url: base_url + 'api/auth/login',
+                data: userData,
+                success: function(response) {
+                    console.log('ok')
+                    window.location = 'dashboard'
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire(
+                        'Error!',
+                        'user or password does not match!',
+                        'error'
+                    )
+                }
+            });
+        });
+    });
+</script>
 <?= $this->endSection() ?>

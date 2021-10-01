@@ -3,6 +3,7 @@
 namespace App\Database\Seeds\Data;
 
 use CodeIgniter\Database\Seeder;
+use Config\App;
 
 class Credentials extends Seeder
 {
@@ -14,13 +15,14 @@ class Credentials extends Seeder
         $data = [
             [
                 'email'         => 'admin@email.com',
-                'username'      => ' admin',
-                'password'      => 'admin123'
+                'username'      => 'admin',
+                'password'      => 'admin'
             ]
         ];
 
         foreach ($data as $result) {
-            $model->insert($result);
+            $entity = new \App\Entities\Credentials($result);
+            $model->insert($entity);
         }
     }
 }

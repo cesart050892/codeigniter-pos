@@ -18,6 +18,9 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/sb-admin-2.min.css') ?>" rel="stylesheet">
 
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="<?= base_url('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') ?>">
+
     <?= $this->renderSection('plugins-css'); ?>
 
     <?= $this->renderSection('styles'); ?>
@@ -93,6 +96,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets/js/sb-admin-2.min.js') ?>"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="<?= base_url('assets/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+
+    <!-- Moment JS -->
+    <script src="<?= base_url('assets/plugins/moment/moment.min.js') ?>"></script>
 
     <?= $this->renderSection('plugins-js'); ?>
 
