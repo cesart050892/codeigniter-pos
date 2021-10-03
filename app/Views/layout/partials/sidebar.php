@@ -29,7 +29,7 @@
 
     <!-- Nav Item - Users -->
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="<?= base_url('users')?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Usuarios</span></a>
     </li>
