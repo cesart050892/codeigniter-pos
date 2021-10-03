@@ -97,7 +97,7 @@ class Users extends Model
 			')
             ->join('credentials', 'users.credential_fk = credentials.id')
             ->join('rols', 'users.rol_fk = rols.id')
-            ->where('users.credential_fk', $id)
+            ->where('users.id', $id)
             ->first();
     }
 }

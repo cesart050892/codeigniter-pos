@@ -58,7 +58,7 @@ Users
     const IMG_LABEL_APP = $('.custom-file-label');
 
     //------- DataTable -------------
-    TABLE_APP.DataTable({
+    var table = TABLE_APP.DataTable({
         "lengthMenu": [
             [3, 5, 10, -1],
             [3, 5, 10, "All"]
@@ -122,7 +122,7 @@ Users
 
     /*
          setInterval(function() {
-            TABLE_APP.ajax.reload();
+            table.ajax.reload();
         }, 1000); 
     */
 
@@ -169,7 +169,7 @@ Users
         }).then((result) => {
             if (result.isConfirmed) {
                 $.get(base_url + `api/users/delete/` + id, () => {
-                    TABLE_APP.ajax.reload(null, false);
+                    table.ajax.reload(null, false);
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
@@ -198,9 +198,9 @@ Users
 
     function renderSave(data) {
         MODAL_TITLE_APP.text(data.title)
-        MODAL_SUBMIT_APP.text(data.btn)
+        MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-warning').addClass('btn-primary')
 
-        $('#input-type').val(null).trigger('change');
+        $('#selectRols').val(null).trigger('change');
         getSelect({
             select: $('#selectRols'),
             url: 'rols'
@@ -231,7 +231,7 @@ Users
             processData: false,
             contentType: false,
             success: function(response) {
-                TABLE_APP.ajax.reload();
+                table.ajax.reload();
                 MODAL_APP.modal('hide');
                 Swal.fire({
                     position: 'top-end',
@@ -248,6 +248,61 @@ Users
                     title: 'Error when saving, check your data.',
                     showConfirmButton: false,
                     timer: 3000
+                })
+            }
+        });
+    }
+
+    function edit(id) {
+        window.stateFunction = false
+        $.get(base_url + 'api/users/edit/' + id, (response) => {
+            sessionStorage.setItem('idAccount', id)
+            render({
+                    title: 'User',
+                    result: response.data,
+                    btn: 'Update'
+                },
+                false
+            );
+        });
+    }
+
+    function renderUpdate(data) {
+        MODAL_TITLE_APP.text(data.title)
+        MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-primary').addClass('btn-warning')
+
+        $('#selectRols').val(data.result.rol_fk).trigger('change');
+        getSelect({
+            select: $('#selectRols'),
+            url: 'rols'
+        })
+        $('#user-name').val(data.result.surname ? `${data.result.name} ${data.result.surname}` : data.result.name)
+        $('#username').val(data.result.username)
+        $('#user-email').val(data.result.email)
+
+        IMG_THUMB_APP.attr('src', data.result.photo)
+    }
+
+    function ajaxUpdate(data) {
+        var data = new FormData(data)
+        var id = sessionStorage.getItem('idAccount')
+        data.append('id', id);
+        $.ajax({
+            type: "POST",
+            url: base_url + "/api/users/update/" + id,
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                sessionStorage.removeItem('idAccount')
+                table.ajax.reload();
+                MODAL_APP.modal('hide');
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been updated',
+                    showConfirmButton: false,
+                    timer: 2000
                 })
             }
         });
@@ -289,7 +344,7 @@ Users
                                         <i class="far fa-sticky-note"></i>
                                     </div>
                                 </div>
-                                <input id="user-name" name="username" type="text" class="form-control">
+                                <input id="username" name="username" type="text" class="form-control">
                             </div>
                         </div>
                     </div>

@@ -49,7 +49,7 @@ class Users extends ResourceController
             'name' => 'required'
         ])) {
             return $this->failValidationErrors($this->validator->getErrors());
-        } 
+        }
         $user = new \App\Entities\Users();
         if ($file = $this->request->getFile('image')) {
             if ($this->validate([
@@ -92,6 +92,23 @@ class Users extends ResourceController
                 ));
             } else {
                 return $this->fail($this->model->errors());
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->failServerError();
+        }
+    }
+
+    public function edit($id = null)
+    {
+        try {
+            if ($resp = $this->model->getOne($id)) {
+                $resp->ignore();
+                return $this->respond(array(
+                    'data'    => $resp
+                ));
+            } else {
+                return $this->failNotFound('can\'t be no found it');
             }
         } catch (\Throwable $th) {
             //throw $th;
