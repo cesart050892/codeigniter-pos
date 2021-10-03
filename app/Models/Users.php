@@ -51,7 +51,7 @@ class Users extends Model
 
     // Functions
 
-    public function getOne($id)
+    public function getAll()
     {
         return $this->select('
             users.id,
@@ -64,12 +64,36 @@ class Users extends Model
             users.credential_fk,
             credentials.email,
             credentials.username,
-            credentials.`password`,
             users.rol_fk,
             rols.rol,
             users.created_at,
             users.updated_at,
             users.deleted_at 
+			')
+            ->join('credentials', 'users.credential_fk = credentials.id')
+            ->join('rols', 'users.rol_fk = rols.id')
+            ->findAll();
+            }
+
+    public function getOne($id)
+    {
+        return $this->select('
+                users.id,
+                users.`name`,
+                users.surname,
+                users.photo,
+                users.address,
+                users.phone,
+                users.state,
+                users.credential_fk,
+                credentials.email,
+                credentials.username,
+                credentials.`password`,
+                users.rol_fk,
+                rols.rol,
+                users.created_at,
+                users.updated_at,
+                users.deleted_at 
 			')
             ->join('credentials', 'users.credential_fk = credentials.id')
             ->join('rols', 'users.rol_fk = rols.id')

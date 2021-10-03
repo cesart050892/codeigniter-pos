@@ -28,4 +28,20 @@ class Users extends ResourceController
             return $this->failServerError($e->getMessage());
         }
     }
+
+    public function index()
+    {
+        try {
+            if($users = $this->model->getAll()){
+                return $this->respond(array(
+                    'data'  => $users
+                ));
+            }else{
+                return $this->failNotFound();
+            }
+            
+        } catch (\Throwable $e) {
+            return $this->failServerError($e->getMessage());
+        }
+    }
 }

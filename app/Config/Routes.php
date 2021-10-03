@@ -58,6 +58,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 		$routes->get('/', 'Users::profile');
 		$routes->get('logout', 'Auth::logout');
 	});
+
+    $routes->group('users', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Users::index');
+		$routes->get('delete/(:num)', 'Users::delete/$1');
+		$routes->get('edit/(:num)', 'Users::edit/$1');
+		$routes->post('/', 'Users::create');
+		$routes->post('update/(:num)', 'Users::update/$1');
+	});
 });
 
 /*
