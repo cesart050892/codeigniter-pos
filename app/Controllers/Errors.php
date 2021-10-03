@@ -6,6 +6,10 @@ class Errors extends BaseController
 {
     public function index()
     {
-        echo view('errors/404');
+        if (!session()->get('isLoggedIn')) {
+            echo view('errors/views/isnt_logged_404');
+        } else {
+            echo view('errors/views/is_logged_404');
+        }
     }
 }
