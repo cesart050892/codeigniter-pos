@@ -226,7 +226,7 @@ Users
     function ajaxSave(data) {
         $.ajax({
             type: "POST",
-            url: base_url + `/api/users`,
+            url: base_url + `api/users`,
             data: new FormData(data),
             processData: false,
             contentType: false,
@@ -269,7 +269,7 @@ Users
             </div>
             <div class="modal-body">
                 <form autocomplete="off" id="userForm" >
-                    <div class="form-group row">
+                <div class="form-group row">
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -278,6 +278,18 @@ Users
                                     </div>
                                 </div>
                                 <input id="user-name" name="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="far fa-sticky-note"></i>
+                                    </div>
+                                </div>
+                                <input id="user-name" name="username" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -311,12 +323,10 @@ Users
                                 <i class="fa fa-users"></i>
                             </div>
                         </div>
-                        <select class="custom-select" id="selectRols">
+                        <select name="rol_fk" class="custom-select" id="selectRols">
                         </select>
                     </div>
                     <div class="form-group">
-
-
                         <div class="custom-file">
                             <input accept="image/*" type="file" class="custom-file-input" name="image">
                             <label class="custom-file-label" for="validatedCustomFile">Choose Image...</label>
