@@ -18,7 +18,8 @@ class Rols extends Seeder
         ];
 
         foreach ($data as $result) {
-            $model->insert($result);
+            $entity = new \App\Entities\Rols($result);
+            $model->insert($entity);
         }
     }
 }

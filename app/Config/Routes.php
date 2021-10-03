@@ -66,6 +66,10 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 		$routes->post('/', 'Users::create');
 		$routes->post('update/(:num)', 'Users::update/$1');
 	});
+
+	$routes->group('rols', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Rols::index');
+	});
 });
 
 /*

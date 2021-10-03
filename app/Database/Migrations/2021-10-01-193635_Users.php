@@ -28,7 +28,7 @@ class Users extends Migration
             'photo'    => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',
-                'null'             => false
+                'default'    => 'assets/img/undraw_profile_2.svg'
             ],
             'address'    => [
                 'type'       => 'VARCHAR',
@@ -44,17 +44,20 @@ class Users extends Migration
                 'type'       => 'TINYINT',
                 'constraint' => '2',
             ],
+            'last_login'    => [
+                'type'       => 'DATETIME'
+            ],
             'credential_fk'    => [
                 'type'           => 'BIGINT',
                 'constraint'     => 11,
                 'unsigned'       => true,
-                'null'             => false
+                'null'           => false
             ],
             'rol_fk'    => [
                 'type'           => 'BIGINT',
                 'constraint'     => 11,
                 'unsigned'       => true,
-                'null'             => false
+                'default'        => '2'
             ],
         ]);
         $this->forge->addKey('id', true);

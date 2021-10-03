@@ -23,7 +23,8 @@ class Users extends Seeder
         ];
 
         foreach ($data as $result) {
-            $model->insert($result);
+            $entity = new \App\Entities\Users($result);
+            $model->insert($entity);
         }
     }
 }
