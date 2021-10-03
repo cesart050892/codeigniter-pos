@@ -46,11 +46,44 @@ Users
 
 <?= $this->section('scripts') ?>
 <script>
+    $('.custom-file-input').change(function() {
+        image = this.files[0]
+        name = image['name']
+        type = image['type']
+        size = image['size']
+        formats = ['image/jpeg', 'image/png', 'application/pdf']
+        //return console.log(name)
+        if (type != formats[0] && type != formats[1] && type != formats[2]) {
+            $('.custom-file-input').val('')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong with the format!'
+            })
+        } else if (size > 2000000) {
+            $('.custom-file-input').val('')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong with size!'
+            })
+        } else {
+            var img = new FileReader
+            img.readAsDataURL(image)
+            $(img).on('load', function(e) {
+                var route = e.target.result
+                $('#imgThumb').attr('src', route)
+                $('.custom-file-label').text(name)
+            })
+        }
+    })
+
     $('#btn-new-users').click(function(e) {
         if (!window.stateFunction) window.stateFunction = true;
         e.preventDefault();
         render({
-            title: 'Save',
+            title: 'User',
+            btn: 'Save'
         })
     });
 
@@ -61,7 +94,7 @@ Users
 
     function renderSave(data) {
         $('.modal-title').text(data.title)
-        $('.btn-submit').text(data.title)
+        $('.btn-submit').text(data.btn)
         $('#input-type').val(null).trigger('change');
         $('#input-account').val('')
         $('#input-code').val('')
@@ -82,42 +115,66 @@ Users
                 </button>
             </div>
             <div class="modal-body">
-                <form autocomplete="off">
-                    <div class="container">
-                        <div class="form-group row">
-                            <label for="input-type" class="col-4 col-form-label">Rol</label>
-                            <div class="col-8">
-                                <select id="input-type" name="input-type" required="required" class="custom-select">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="input-account" class="col-4 col-form-label">User</label>
-                            <div class="col-8">
-                                <div class="input-group">
-                                    <input id="input-account" name="input-account" type="text" required="required" class="form-control">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-address-card"></i>
-                                        </div>
+                <form>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="input-code" class="col-4 col-form-label">Surname</label>
-                            <div class="col-8">
-                                <div class="input-group">
-                                    <input id="input-code" name="input-code" type="text" required="required" class="form-control">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-list-ol"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                <input id="user-name" name="user-name" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-key"></i>
+                                    </div>
+                                </div>
+                                <input id="user-email" name="user-email" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-lock"></i>
+                                    </div>
+                                </div>
+                                <input id="user-password" name="user-password" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-users"></i>
+                            </div>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01">
+                            <option selected>Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+              
+
+              <div class="custom-file">
+                        <input accept="image/*" type="file" class="custom-file-input" id="fImage" name="image">
+                        <label class="custom-file-label" for="validatedCustomFile">Choose Image...</label>
+                    </div>
+              <p class="help-block pl-2">Max. size 2MB</p>
+              <img src="assets/img/undraw_profile_2.svg" id="imgThumb" class="rounded mx-auto d-block" alt="Responsive image" style="width:100px">
+            </div>
             </div>
             <div class="modal-footer">
                 <button name="submit" type="submit" class="btn btn-primary btn-submit"></button>
