@@ -8,7 +8,7 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 class Users extends Entity
 {
 
-    protected $path = ROOTPATH . 'public/assets/uploads/img/users';
+    protected $path = ROOTPATH . 'public/';
 
     protected $datamap = [];
     protected $dates   = [
@@ -47,8 +47,9 @@ class Users extends Entity
     public function saveProfileImage(UploadedFile $image)
     {
         $image = $this->storeImage($image);
-        if (isset($this->attributes['photo'])) {
-            if ($this->attributes['photo'] !== 'assets/img/undraw_profile_2.svg') $this->deleteImage();
+        if (isset($this->attributes['photo'])) 
+        {
+            $this->deleteImage();
         }
         return $image;
     }
@@ -60,7 +61,7 @@ class Users extends Entity
         }
         try {
             $newName = $image->getRandomName();
-            $image->move($this->path, $newName);
+            $image->move($this->path."assets/uploads/img/users", $newName);
             log_message("info", $newName . " saved to public upload folder");
         } catch (\Throwable $th) {
             return false;
@@ -68,12 +69,15 @@ class Users extends Entity
         return $newName;
     }
 
-    private function deleteImage(): bool
+    public function deleteImage(): bool
     {
-        $file    = "{$this->path}/{$this->photo}";
-        if (!file_exists($file)) {
-            return false;
+        if ($this->attributes['photo'] !== 'assets/img/undraw_profile_2.svg') 
+        {
+            $file    = "{$this->path}{$this->photo}";
+            if (!file_exists($file)) {
+                return false;
+            }
+            return unlink($file);
         }
-        return unlink($file);
     }
 }

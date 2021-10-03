@@ -79,4 +79,23 @@ class Users extends ResourceController
         }
         return $this->respondUpdated(['message' => 'ok!']);
     }
+
+    public function delete($id = null)
+    {
+        try {
+            $user = $this->model->find($id);
+            $user->deleteImage();
+            if ($this->model->delete($id)) {
+                $this->model->purgeDeleted();
+                return $this->respond(array(
+                    'message'    => 'Deleted'
+                ));
+            } else {
+                return $this->fail($this->model->errors());
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->failServerError();
+        }
+    }
 }
