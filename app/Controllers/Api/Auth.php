@@ -54,4 +54,20 @@ class Auth extends ResourceController
             return $this->failServerError($e->getMessage());
         }
     }
+
+    public function logout()
+    {
+        try {
+            $session = session();
+            $session->destroy();
+            return $this->respond(array(
+                'status'    => 200,
+                'message'    => 'See you next time!',
+                'data'        => null
+            ));
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->failServerError();
+        }
+    }
 }

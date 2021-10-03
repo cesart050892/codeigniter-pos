@@ -103,6 +103,9 @@
     <!-- Moment JS -->
     <script src="<?= base_url('assets/plugins/moment/moment.min.js') ?>"></script>
 
+    <!-- Page -->
+    <script src="<?= base_url('assets/js/app/app.js') ?>"></script>
+
     <?= $this->renderSection('plugins-js'); ?>
 
     <?= $this->renderSection('scripts'); ?>

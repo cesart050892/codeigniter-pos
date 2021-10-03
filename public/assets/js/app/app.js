@@ -1,7 +1,9 @@
+var base_url = window.location.origin + '/';
+
 function logout() {
   $.ajax({
     type: "GET",
-    url: baseUrl + "/api/me/logout",
+    url: base_url + "api/me/logout",
     success: function (response) {
       location.reload(true);
     },
@@ -28,7 +30,7 @@ $(".logout").on("click", function () {
 });
 
 function getProfile() {
-  $.get(baseUrl + "/api/me", (resp) => {
+  $.get(base_url + "api/me", (resp) => {
     let user = resp.data
     !user.surname
       ? $(".profile-name").text(user.name)

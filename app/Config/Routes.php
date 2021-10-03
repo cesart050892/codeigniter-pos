@@ -52,6 +52,11 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
         $routes->post('signup', 'Auth::signup');
         $routes->post('login', 'Auth::login');
     });
+
+    $routes->group('me', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Users::profile');
+		$routes->get('logout', 'Auth::logout');
+	});
 });
 
 /*
