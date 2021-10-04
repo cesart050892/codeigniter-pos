@@ -196,27 +196,33 @@ Users
         !option ? renderUpdate(data) : renderSave(data);
     }
 
-    function renderSave(data) {
-        MODAL_TITLE_APP.text(data.title)
-        MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-warning').addClass('btn-primary')
+    function renderSave(data = null) {
+        MODAL_TITLE_APP.text('User' ? 'User' : data.title)
+        MODAL_SUBMIT_APP.text('Save').removeClass('btn-warning').addClass('btn-primary')
+        IMG_INPUT_APP.val('')
+        IMG_LABEL_APP.text('Choose a image..')
 
-        $('#selectRols').val(null).trigger('change');
-        getSelect({
-            select: $('#selectRols'),
-            url: 'rols'
-        })
-        $('#input-account').val('')
-        $('#input-code').val('')
+        $('#selectRols').val('').trigger('change');
+        $('#user-name').val('')
+        $('#username').val('')
+        $('#user-email').val('')
+
+        IMG_THUMB_APP.attr('src', 'assets/img/undraw_profile_2.svg')
     }
 
     function getSelect(data) {
         data.select.html('')
-        $.get(base_url + 'api/'+ data.url, (response) => {
+        $.get(base_url + 'api/' + data.url, (response) => {
             $.each(response.data, function(key, value) {
                 data.select.append(`<option value="${value.id}">${value.rol}</option>`);
             });
         });
     }
+
+    getSelect({
+        select: $('#selectRols'),
+        url: 'rols'
+    })
 
     MODAL_FORM_APP.submit(function(e) {
         e.preventDefault();
@@ -231,6 +237,7 @@ Users
             processData: false,
             contentType: false,
             success: function(response) {
+                renderSave();
                 table.ajax.reload();
                 MODAL_APP.modal('hide');
                 Swal.fire({
@@ -271,11 +278,9 @@ Users
         MODAL_TITLE_APP.text(data.title)
         MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-primary').addClass('btn-warning')
 
+        //IMG_LABEL_APP.text('Choose a image..')
+
         $('#selectRols').val(data.result.rol_fk).trigger('change');
-        getSelect({
-            select: $('#selectRols'),
-            url: 'rols'
-        })
         $('#user-name').val(data.result.surname ? `${data.result.name} ${data.result.surname}` : data.result.name)
         $('#username').val(data.result.username)
         $('#user-email').val(data.result.email)
@@ -286,6 +291,7 @@ Users
     function ajaxUpdate(data) {
         var data = new FormData(data)
         var id = sessionStorage.getItem('idAccount')
+        data.delete('password')
         data.append('id', id);
         $.ajax({
             type: "POST",
@@ -294,6 +300,7 @@ Users
             processData: false,
             contentType: false,
             success: function(response) {
+                renderSave()
                 sessionStorage.removeItem('idAccount')
                 table.ajax.reload();
                 MODAL_APP.modal('hide');
@@ -323,8 +330,8 @@ Users
                 </button>
             </div>
             <div class="modal-body">
-                <form autocomplete="off" id="userForm" >
-                <div class="form-group row">
+                <form autocomplete="off" id="userForm">
+                    <div class="form-group row">
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">

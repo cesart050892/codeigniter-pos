@@ -141,7 +141,11 @@ class Users extends ResourceController
 
                 $authModel = model('App\Models\Credentials', false);
                 $auth = $authModel->find($user->credential_fk);
-                $auth->fill($this->request->getPost(['email', 'username', 'password']));
+
+                $auth->fill($this->request->getPost(['email', 'username']));
+                
+                $password = $this->request->getPost('password');
+                if($password) $auth->fill($password) ;
 
                 if (!$authModel->save($auth)) {
                     return $this->failValidationErrors($authModel->errors());
@@ -159,7 +163,7 @@ class Users extends ResourceController
             }
         } catch (\Throwable $th) {
             //throw $th;
-            return $this->failServerError();
+            return $this->failServerError($th->getMessage());
         }
     }
 }
