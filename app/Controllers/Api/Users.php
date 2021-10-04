@@ -126,6 +126,7 @@ class Users extends ResourceController
                 $user = $this->model->getOne($id);
                 $user->fill($this->request->getPost(['name', 'email', 'rol_fk']));
                 $user->state = $this->request->getPost('state') ? $this->request->getPost('state') : 1;
+
                 if ($file = $this->request->getFile('image')) {
                     if ($this->validate([
                         "image" => 'is_image[image]|max_size[image,1024]' // moidifique el JS para aceptar pdf y testear la validacion
@@ -143,16 +144,19 @@ class Users extends ResourceController
                 $auth = $authModel->find($user->credential_fk);
 
                 $auth->fill($this->request->getPost(['email', 'username']));
-                
+
                 $password = $this->request->getPost('password');
-                if($password) $auth->fill($password) ;
+                if ($password) $auth->fill($password);
 
-                if (!$authModel->save($auth)) {
-                    return $this->failValidationErrors($authModel->errors());
+                if ($auth->hasChanged()) {
+                    if (!$authModel->save($auth)) {
+                        return $this->failValidationErrors($authModel->errors());
+                    }
                 }
-
-                if (!$this->model->save($user)) {
-                    return $this->failValidationErrors($this->model->errors());
+                if ($user->hasChanged()) {
+                    if (!$this->model->save($user)) {
+                        return $this->failValidationErrors($this->model->errors());
+                    }
                 }
 
                 return $this->respondUpdated(array(

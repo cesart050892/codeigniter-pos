@@ -79,5 +79,6 @@ class Users extends Entity
             }
             return unlink($file);
         }
+        return false;
     }
 }
