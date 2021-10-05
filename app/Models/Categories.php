@@ -14,7 +14,7 @@ class Categories extends Model
     protected $returnType           = \App\Entities\Categories::class;
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
-    protected $allowedFields        = [];
+    protected $allowedFields        = ['category'];
 
     // Dates
     protected $useTimestamps        = true;

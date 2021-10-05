@@ -72,6 +72,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 	$routes->group('rols', ['namespace' => 'App\Controllers\Api'], function ($routes) {
 		$routes->get('/', 'Rols::index');
 	});
+
+	$routes->group('categories', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Categories::index');
+		$routes->get('delete/(:num)', 'Categories::delete/$1');
+		$routes->get('edit/(:num)', 'Categories::edit/$1');
+		$routes->post('/', 'Categories::create');
+		$routes->post('update/(:num)', 'Categories::update/$1');
+	});
 });
 
 /*

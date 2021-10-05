@@ -140,8 +140,7 @@ Categories
 
     function renderSave(data = null) {
         MODAL_SUBMIT_APP.text('Save').removeClass('btn-warning').addClass('btn-primary')
-        IMG_INPUT_APP.val('')
-        IMG_LABEL_APP.text('Choose a image..')
+        $("#inputCategory").val('')
     }
 
     MODAL_FORM_APP.submit(function(e) {
@@ -195,6 +194,7 @@ Categories
 
     function renderUpdate(data) {
         MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-primary').addClass('btn-warning')
+        $("#inputCategory").val(data.result.category)
     }
 
     function ajaxUpdate(data) {
