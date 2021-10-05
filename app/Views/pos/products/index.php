@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('title') ?>
-Categories
+Products
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -10,14 +10,14 @@ Categories
     <!-- Basic Card Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
-            <h6 class="m-0 mt-1 font-weight-bold text-primary">Categories</h6>
-            <button type="button" class="btn btn-primary btn-sm" id="btnNewCategory">
+            <h6 class="m-0 mt-1 font-weight-bold text-primary">Products</h6>
+            <button type="button" class="btn btn-primary btn-sm" id="btnNewProducts">
                 <i class="fas fa-plus-square"></i>
-                Add New Category
+                Add New Products
             </button>
         </div>
         <div class="card-body">
-            <table id="tableCategory" class="table table-hover table-bordered table-striped display nowrap" style="width:100%">
+            <table id="tableProducts" class="table table-hover table-bordered table-striped display nowrap" style="width:100%">
             </table>
         </div>
     </div>
@@ -46,10 +46,11 @@ Categories
 
 <?= $this->section('scripts') ?>
 <script>
-    const TABLE_APP = $('#tableCategory');
+    const ENTITY_API = 'products';
+    const TABLE_APP = $('#tableProducts');
 
-    const MODAL_APP = $('#modalCategory');
-    const MODAL_FORM_APP = $('#formCategory');
+    const MODAL_APP = $('#modalProducts');
+    const MODAL_FORM_APP = $('#formProducts');
     const MODAL_TITLE_APP = $('.modal-title');
     const MODAL_SUBMIT_APP = $('.btn-submit');
 
@@ -61,15 +62,14 @@ Categories
         ],
         ajax: {
             type: "GET",
-            url: base_url + `api/categories`,
+            url: base_url + `api/${ENTITY_API}`,
             dataSrc: function(response) {
                 return response.data;
             },
         },
-        columns: [
-            {
-                data: "category",
-                title: "Category"
+        columns: [{
+                data: "product",
+                title: "Product"
             },
             {
                 data: null,
@@ -109,7 +109,7 @@ Categories
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                $.get(base_url + `api/categories/delete/` + id, () => {
+                $.get(base_url + `api/${ENTITY_API}/delete/` + id, () => {
                     table.ajax.reload(null, false);
                     Swal.fire({
                         position: 'top-end',
@@ -123,18 +123,18 @@ Categories
         })
     }
 
-    $(`#btnNewCategory`).click(function(e) {
+    $(`#btnNewProducts`).click(function(e) {
         if (!window.stateFunction) window.stateFunction = true;
         e.preventDefault();
         render({
-            title: 'Category',
+            title: 'Products',
             btn: 'Save'
         })
     });
 
     function render(data, option = true) {
         MODAL_APP.modal('show');
-        MODAL_TITLE_APP.text('Category')
+        MODAL_TITLE_APP.text('Products');
         !option ? renderUpdate(data) : renderSave(data);
     }
 
@@ -151,7 +151,7 @@ Categories
     function ajaxSave(data) {
         $.ajax({
             type: "POST",
-            url: base_url + `api/categories`,
+            url: base_url + `api/${ENTITY_API}`,
             data: new FormData(data),
             processData: false,
             contentType: false,
@@ -181,7 +181,7 @@ Categories
 
     function edit(id) {
         window.stateFunction = false
-        $.get(base_url + 'api/categories/edit/' + id, (response) => {
+        $.get(base_url + `api/${ENTITY_API}/edit/` + id, (response) => {
             sessionStorage.setItem('idupdate', id)
             render({
                     result: response.data,
@@ -194,7 +194,7 @@ Categories
 
     function renderUpdate(data) {
         MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-primary').addClass('btn-warning')
-        $("#inputCategory").val(data.result.category)
+        $("#inputProducts").val(data.result.product)
     }
 
     function ajaxUpdate(data) {
@@ -204,7 +204,7 @@ Categories
         data.append('id', id);
         $.ajax({
             type: "POST",
-            url: base_url + "/api/categories/update/" + id,
+            url: base_ / urENTITY_APIl + "/api${}/update/" + id,
             data: data,
             processData: false,
             contentType: false,
@@ -226,31 +226,119 @@ Categories
 </script>
 <?= $this->endSection() ?>
 
-<?= $this->section('modal') ?>
 
+<?= $this->section('modal') ?>
 <!-- Modal -->
-<div class="modal fade" id="modalCategory" tabindex="-1" role="dialog" aria-labelledby="labelModalCategory" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="true">
+<div class="modal fade" id="modalProducts" tabindex="-1" role="dialog" aria-labelledby="labelModalProducts" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="labelModalCategory"></h5>
+                <h5 class="modal-title" id="labelModalProducts"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form autocomplete="off" id="formCategory">
+                <form autocomplete="off" id="formProducts">
+                    <!-- ENTRADA PARA SELECCIONAR CATEGORÍA -->
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-users"></i>
+                            </div>
+                        </div>
+                        <select name="rol_fk" class="custom-select" id="selectRols">
+                            <option value=""> Selecionar Categoria </option>
+                        </select>
+                    </div>
+                    <!-- ENTRADA PARA EL CÓDIGO -->
                     <div class="form-group row">
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <i class="fas fa-clipboard-list"></i>
+                                        <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input id="inputCategory" name="category" type="text" class="form-control">
+                                <input id="user-name" name="name" type="text" class="form-control">
                             </div>
                         </div>
+                    </div>
+                    <!-- ENTRADA PARA LA DESCRIPCIÓN -->
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input id="user-name" name="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ENTRADA PARA STOCK -->
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input id="user-name" name="name" type="number" class="form-control" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ENTRADA PARA PRECIO COMPRA -->
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input id="user-name" name="name" type="number" class="form-control" min="0">
+                            </div>
+                        </div>
+                        <!-- ENTRADA PARA PRECIO VENTA -->
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input id="user-name" name="name" type="number" class="form-control" min="0">
+                            </div>
+                            <br>
+                            <!-- CHECKBOX PARA PORCENTAJE -->
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" class="minimal porcentaje" checked>
+                                        Utilizar procentaje
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- ENTRADA PARA PORCENTAJE -->
+                            <div class="col-xs-6" style="padding:0">
+                                <div class="input-group">
+                                    <input type="number" class="form-control input-lg nuevoPorcentaje" min="0" value="40" required>
+                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ENTRADA PARA SUBIR FOTO -->
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input accept="image/*" type="file" class="custom-file-input" name="image">
+                            <label class="custom-file-label" for="validatedCustomFile">Choose Image...</label>
+                        </div>
+                        <p class="help-block pl-2">Max. size 2MB</p>
+                        <img src="assets/img/undraw_product.png" id="userImage" class="rounded mx-auto d-block" alt="Responsive image" style="width:100px">
                     </div>
             </div>
             <div class="modal-footer">

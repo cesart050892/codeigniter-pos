@@ -203,15 +203,8 @@ Users
     function renderSave(data = null) {
         MODAL_TITLE_APP.text('User' ? 'User' : data.title)
         MODAL_SUBMIT_APP.text('Save').removeClass('btn-warning').addClass('btn-primary')
-        IMG_INPUT_APP.val('')
-        IMG_LABEL_APP.text('Choose a image..')
 
-        $('#selectRols').val('').trigger('change');
-        $('#user-name').val('')
-        $('#username').val('')
-        $('#user-email').val('')
-
-        IMG_THUMB_APP.attr('src', 'assets/img/undraw_profile_2.svg')
+        MODAL_FORM_APP.trigger("reset");
     }
 
     function getSelect(data) {
