@@ -48,4 +48,49 @@ class Products extends Model
     protected $afterFind            = [];
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
+
+    // Functions
+
+    public function getAll()
+    {
+        return $this->select('
+            products.id, 
+            products.`code`, 
+            products.description, 
+            products.stock, 
+            products.cost, 
+            products.sale, 
+            products.quantity, 
+            products.image, 
+            products.category_fk, 
+            categories.category, 
+            products.created_at, 
+            products.updated_at, 
+            products.deleted_at
+		')
+            ->join('categories', 'products.category_fk = categories.id')
+            ->findAll();
+    }
+
+    public function getOne($id)
+    {
+        return $this->select('
+            products.id, 
+            products.`code`, 
+            products.description, 
+            products.stock, 
+            products.cost, 
+            products.sale, 
+            products.quantity, 
+            products.image, 
+            products.category_fk, 
+            categories.category, 
+            products.created_at, 
+            products.updated_at, 
+            products.deleted_at
+        ')
+            ->join('categories', 'products.category_fk = categories.id')
+            ->where('products.id', $id)
+            ->first();
+    }
 }

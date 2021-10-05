@@ -8,7 +8,7 @@ $routes = Services::routes();
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
 if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
-    require SYSTEMPATH . 'Config/Routes.php';
+	require SYSTEMPATH . 'Config/Routes.php';
 }
 
 /*
@@ -51,17 +51,17 @@ $routes->get('products', 'Products::index');
  */
 
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes) {
-    $routes->group('auth', function ($routes) {
-        $routes->post('signup', 'Auth::signup');
-        $routes->post('login', 'Auth::login');
-    });
+	$routes->group('auth', function ($routes) {
+		$routes->post('signup', 'Auth::signup');
+		$routes->post('login', 'Auth::login');
+	});
 
-    $routes->group('me', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+	$routes->group('me', ['namespace' => 'App\Controllers\Api'], function ($routes) {
 		$routes->get('/', 'Users::profile');
 		$routes->get('logout', 'Auth::logout');
 	});
 
-    $routes->group('users', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+	$routes->group('users', ['namespace' => 'App\Controllers\Api'], function ($routes) {
 		$routes->get('/', 'Users::index');
 		$routes->get('delete/(:num)', 'Users::delete/$1');
 		$routes->get('edit/(:num)', 'Users::edit/$1');
@@ -81,6 +81,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 		$routes->post('/', 'Categories::create');
 		$routes->post('update/(:num)', 'Categories::update/$1');
 	});
+
+	$routes->group('products', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Products::index');
+		$routes->get('delete/(:num)', 'Products::delete/$1');
+		$routes->get('edit/(:num)', 'Products::edit/$1');
+		$routes->post('/', 'Products::create');
+		$routes->post('update/(:num)', 'Products::update/$1');
+	});
 });
 
 /*
@@ -97,5 +105,5 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
  * needing to reload it.
  */
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
-    require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

@@ -54,6 +54,42 @@ Products
     const MODAL_TITLE_APP = $('.modal-title');
     const MODAL_SUBMIT_APP = $('.btn-submit');
 
+    const IMG_THUMB_APP = $('#thumbsImageProducts');
+    const IMG_LABEL_APP = $('#labelFileProducts');
+    const IMG_INPUT_APP = $('#customFileProducts')
+
+    IMG_INPUT_APP.change(function() {
+        image = this.files[0]
+        name = image['name']
+        type = image['type']
+        size = image['size']
+        formats = ['image/jpeg', 'image/png', 'application/pdf']
+        //return console.log(name)
+        if (type != formats[0] && type != formats[1] && type != formats[2]) {
+            IMG_INPUT_APP.val('')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong with the format!'
+            })
+        } else if (size > 2000000) {
+            IMG_INPUT_APP.val('')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong with size!'
+            })
+        } else {
+            var img = new FileReader
+            img.readAsDataURL(image)
+            $(img).on('load', function(e) {
+                var route = e.target.result
+                IMG_THUMB_APP.attr('src', route)
+                IMG_LABEL_APP.text(name)
+            })
+        }
+    })
+
     //------- DataTable -------------
     var table = TABLE_APP.DataTable({
         "lengthMenu": [
@@ -67,9 +103,41 @@ Products
                 return response.data;
             },
         },
-        columns: [{
-                data: "product",
+        columns: [
+            {
+                data: "code",
+                title: "Code"
+            },
+            {
+                data: "description",
                 title: "Product"
+            },
+            {
+                data: "category",
+                title: "Category"
+            },
+            {
+                data: null,
+                title: "Image",
+                render: function(data){
+                    return `<img src="${data.image}" class="img-thumbnail" width="40px">`;
+                }
+            },
+            {
+                data: "stock",
+                title: "Stock"
+            },
+            {
+                data: "cost",
+                title: "Cost"
+            },
+            {
+                data: "sale",
+                title: "Sales"
+            },
+            {
+                data: "quantity",
+                title: "Sold"
             },
             {
                 data: null,
@@ -99,6 +167,20 @@ Products
             table.ajax.reload();
         }, 1000); 
     */
+
+    function getSelect(data) {
+        data.select.html('')
+        $.get(base_url + 'api/' + data.url, (response) => {
+            $.each(response.data, function(key, value) {
+                data.select.append(`<option value="${value.id}">${value.category}</option>`);
+            });
+        });
+    }
+
+    getSelect({
+        select: $('#selectCategory'),
+        url: 'categories'
+    })
 
     function destroy(id) {
         swal.fire({
@@ -194,7 +276,11 @@ Products
 
     function renderUpdate(data) {
         MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-primary').addClass('btn-warning')
-        $("#inputProducts").val(data.result.product)
+        $("#code").val(data.result.code).prop('readonly', true)
+        $("#description").val(data.result.description)
+        $("#stock").val(data.result.stock)
+        $("#sales").val(data.result.sale)
+        $("#cost").val(data.result.cost)
     }
 
     function ajaxUpdate(data) {
@@ -247,7 +333,7 @@ Products
                                 <i class="fa fa-users"></i>
                             </div>
                         </div>
-                        <select name="rol_fk" class="custom-select" id="selectRols">
+                        <select class="custom-select" id="selectCategory" name="category">
                             <option value=""> Selecionar Categoria </option>
                         </select>
                     </div>
@@ -260,7 +346,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input id="user-name" name="name" type="text" class="form-control">
+                                <input type="text" class="form-control" id="code" name="code"  placeholder="Code">
                             </div>
                         </div>
                     </div>
@@ -273,7 +359,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input id="user-name" name="name" type="text" class="form-control">
+                                <input type="text" class="form-control" id="description" name="description"  placeholder="Description">
                             </div>
                         </div>
                     </div>
@@ -286,7 +372,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input id="user-name" name="name" type="number" class="form-control" min="0">
+                                <input type="number" class="form-control" min="0" id="stock" name="stock"  placeholder="Stock">
                             </div>
                         </div>
                     </div>
@@ -299,7 +385,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input id="user-name" name="name" type="number" class="form-control" min="0">
+                                <input type="number" class="form-control" min="0" id="cost" name="cost"  placeholder="Cost">
                             </div>
                         </div>
                         <!-- ENTRADA PARA PRECIO VENTA -->
@@ -310,7 +396,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input id="user-name" name="name" type="number" class="form-control" min="0">
+                                <input type="number" class="form-control" min="0" id="sales" name="sale"  placeholder="Sales">
                             </div>
                             <br>
                             <!-- CHECKBOX PARA PORCENTAJE -->
@@ -334,11 +420,11 @@ Products
                     <!-- ENTRADA PARA SUBIR FOTO -->
                     <div class="form-group">
                         <div class="custom-file">
-                            <input accept="image/*" type="file" class="custom-file-input" name="image">
-                            <label class="custom-file-label" for="validatedCustomFile">Choose Image...</label>
+                            <input accept="image/*" type="file" class="custom-file-input" id="customFileProducts" name="image">
+                            <label class="custom-file-label" for="validatedCustomFile" id="labelFileProducts">Choose Image...</label>
                         </div>
                         <p class="help-block pl-2">Max. size 2MB</p>
-                        <img src="assets/img/undraw_product.png" id="userImage" class="rounded mx-auto d-block" alt="Responsive image" style="width:100px">
+                        <img src="assets/img/undraw_product.png" id="thumbsImageProducts" class="rounded mx-auto d-block" alt="Responsive image" style="width:100px">
                     </div>
             </div>
             <div class="modal-footer">

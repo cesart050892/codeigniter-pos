@@ -42,11 +42,10 @@ class Categories extends ResourceController
     public function delete($id = null)
     {
         try {
-            $entity = $this->model->find($id);
             if ($this->model->delete($id)) {
                 $this->model->purgeDeleted();
                 return $this->respond(array(
-                    'message'    => 'Deleted'
+                    'message'    => 'deleted'
                 ));
             } else {
                 return $this->fail($this->model->errors());

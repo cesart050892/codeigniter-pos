@@ -44,7 +44,7 @@ class Products extends Migration
             'image'    => [
                 'type'       => 'VARCHAR',
                 'constraint' => '75',
-                'null'             => false
+                'default'    => 'assets/img/undraw_product.png'
             ],
             'category_fk'    => [
                 'type'           => 'BIGINT',
