@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api;
 
+use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 
 class Auth extends ResourceController
@@ -34,6 +35,11 @@ class Auth extends ResourceController
                             'user_id' => $user->id,
                             'isLoggedIn' => true
                         ];
+                        $userModel = model('App\Models\Users',false);
+                        $userModel->save([
+                            'id'            => $user->id,
+                            'last_login'    => new Time('now')
+                        ]);
                         session()->set($session_data);
                         return $this->respond([
                             'status' => 200,

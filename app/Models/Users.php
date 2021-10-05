@@ -22,7 +22,8 @@ class Users extends Model
         'phone',
         'state',
         'credential_fk',
-        'rol_fk'
+        'rol_fk',
+        'last_login'
     ];
 
     // Dates
