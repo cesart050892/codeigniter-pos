@@ -38,7 +38,7 @@ $routes->setAutoRoute(false);
  * --------------------------------------------------------------------
  */
 
-$routes->get('/', 'Auth/Login::index');
+$routes->get('/', 'Auth/Login::index', ['filter' => 'done']);
 $routes->get('dashboard', 'Dashboard::index');
 $routes->get('users', 'Users::index');
 

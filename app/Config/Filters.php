@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\HasAlready;
 use App\Filters\HasNotBeen;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
@@ -20,7 +21,8 @@ class Filters extends BaseConfig
         'csrf'     => CSRF::class,
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
-        'web'      => HasNotBeen::class
+        'web'      => HasNotBeen::class,
+        'done'     => HasAlready::class
     ];
 
     /**
