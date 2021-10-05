@@ -60,6 +60,7 @@ class Users extends Model
             users.surname,
             users.photo,
             users.address,
+            users.last_login,
             users.phone,
             users.state,
             users.credential_fk,

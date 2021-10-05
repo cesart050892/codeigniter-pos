@@ -82,6 +82,10 @@ Users
                 title: "Username"
             },
             {
+                data: "last_login",
+                title: "Last login"
+            },
+            {
                 data: null,
                 title: "Photo",
                 render: function(data) {
