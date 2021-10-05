@@ -179,18 +179,21 @@ class Users extends ResourceController
                 'state' => 'required',
             ))) {
                 $user = $this->model->getOne($id);
+                if ($id  != session()->user_id) {
+                    $user->fill($this->request->getPost(['state']));
 
-                $user->fill($this->request->getPost(['state']));
-
-                if ($user->hasChanged()) {
-                    if (!$this->model->save($user)) {
-                        return $this->failValidationErrors($this->model->errors());
+                    if ($user->hasChanged()) {
+                        if (!$this->model->save($user)) {
+                            return $this->failValidationErrors($this->model->errors());
+                        }
                     }
-                }
 
-                return $this->respondUpdated(array(
-                    'message' => 'updated'
-                ));
+                    return $this->respondUpdated(array(
+                        'message' => 'updated'
+                    ));
+                }else{
+                    return $this->failValidationErrors('not allowed');
+                }
             } else {
                 return $this->failValidationErrors($this->validator->getErrors());
             }
