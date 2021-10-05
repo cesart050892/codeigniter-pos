@@ -24,7 +24,10 @@ class Credentials extends Model
     protected $deletedField         = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'username'  => 'required|is_unique[credentials.username,{id},{id}]',
+        'email'     => 'valid_email'
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
@@ -39,4 +42,32 @@ class Credentials extends Model
     protected $afterFind            = [];
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
+
+    // Functions
+
+    public function getWhere(string $field, string $value){
+        return $this->select('	
+            credentials.email,
+            credentials.username,
+            credentials.`password`,
+            credentials.created_at,
+            credentials.updated_at,
+            credentials.deleted_at,
+            users.`name`,
+            users.surname,
+            users.photo,
+            users.address,
+            users.phone,
+            users.state,
+            users.last_login,
+            users.credential_fk,
+            users.rol_fk,
+            rols.rol,
+            users.id '
+        )
+        ->join('users', 'credentials.id = users.credential_fk')
+        ->join('rols', 'users.rol_fk = rols.id')
+        ->where($field, $value)
+        ->first();
+    }
 }

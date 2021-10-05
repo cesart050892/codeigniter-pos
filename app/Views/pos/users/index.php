@@ -93,8 +93,8 @@ Users
                 title: "State",
                 render: function(data) {
                     return data.state == 1 ?
-                        `<button class="btn btn-success btn-sm">Activado</button>` :
-                        `<button class="btn btn-danger btn-sm">Desactivado</button>`;
+                        `<button class="btn btn-success btn-sm" onClick="stateChange(${data.id}, 1)">Activado</button>` :
+                        `<button class="btn btn-danger btn-sm" onClick="stateChange(${data.id}, 0)">Desactivado</button>`;
                 },
             },
             {
@@ -263,7 +263,7 @@ Users
     function edit(id) {
         window.stateFunction = false
         $.get(base_url + 'api/users/edit/' + id, (response) => {
-            sessionStorage.setItem('idAccount', id)
+            sessionStorage.setItem('idupdate', id)
             render({
                     title: 'User',
                     result: response.data,
@@ -290,7 +290,7 @@ Users
 
     function ajaxUpdate(data) {
         var data = new FormData(data)
-        var id = sessionStorage.getItem('idAccount')
+        var id = sessionStorage.getItem('idupdate')
         data.delete('password')
         data.append('id', id);
         $.ajax({
@@ -301,7 +301,7 @@ Users
             contentType: false,
             success: function(response) {
                 renderSave()
-                sessionStorage.removeItem('idAccount')
+                sessionStorage.removeItem('idupdate')
                 table.ajax.reload();
                 MODAL_APP.modal('hide');
                 Swal.fire({
@@ -313,6 +313,42 @@ Users
                 })
             }
         });
+    }
+
+    function stateChange(id, state) {
+        if (localStorage.getItem('idUser') == id) {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'You can\'t do that',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        } else {
+            state = state == 1 ? 0 : 1;
+            data = new FormData()
+            data.append('state', state)
+            $.ajax({
+                type: "POST",
+                url: base_url + "/api/users/state/" + id,
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    renderSave()
+                    table.ajax.reload();
+                    MODAL_APP.modal('hide');
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been updated',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            });
+        }
+
     }
 </script>
 <?= $this->endSection() ?>

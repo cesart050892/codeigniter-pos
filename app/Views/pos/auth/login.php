@@ -67,15 +67,23 @@ Login
                 url: base_url + 'api/auth/login',
                 data: userData,
                 success: function(response) {
-                    console.log('ok')
                     window.location = 'dashboard'
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    Swal.fire(
+                    if(jqXHR.responseJSON.messages.error == 'not access'){
+                        Swal.fire(
+                        'Error!',
+                        'you are not allowed to enter!',
+                        'error'
+                    )
+                    }else{
+                        Swal.fire(
                         'Error!',
                         'user or password does not match!',
                         'error'
                     )
+                    }
+
                 }
             });
         });

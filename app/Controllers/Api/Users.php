@@ -170,4 +170,33 @@ class Users extends ResourceController
             return $this->failServerError($th->getMessage());
         }
     }
+
+    public function state($id = null)
+    {
+        try {
+            //
+            if ($this->validate(array(
+                'state' => 'required',
+            ))) {
+                $user = $this->model->getOne($id);
+
+                $user->fill($this->request->getPost(['state']));
+
+                if ($user->hasChanged()) {
+                    if (!$this->model->save($user)) {
+                        return $this->failValidationErrors($this->model->errors());
+                    }
+                }
+
+                return $this->respondUpdated(array(
+                    'message' => 'updated'
+                ));
+            } else {
+                return $this->failValidationErrors($this->validator->getErrors());
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->failServerError($th->getMessage());
+        }
+    }
 }

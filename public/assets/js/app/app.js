@@ -1,10 +1,11 @@
-var base_url = window.location.origin + '/';
+var base_url = window.location.origin + "/";
 
 function logout() {
   $.ajax({
     type: "GET",
     url: base_url + "api/me/logout",
     success: function (response) {
+      localStorage.removeItem("idUser");
       location.reload(true);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -31,7 +32,8 @@ $(".logout").on("click", function () {
 
 function getProfile() {
   $.get(base_url + "api/me", (resp) => {
-    let user = resp.data
+    let user = resp.data;
+    localStorage.setItem("idUser", user.id);
     !user.surname
       ? $(".profile-name").text(user.name)
       : $(".profile-name").text(`${user.name} ${user.surname}`);
