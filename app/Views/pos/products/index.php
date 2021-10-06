@@ -384,7 +384,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" min="0" id="cost" name="cost" placeholder="Cost">
+                                <input step=".01" type="number" class="form-control" min="0" id="cost" name="cost" placeholder="Cost">
                             </div>
                         </div>
                         <!-- ENTRADA PARA PRECIO VENTA -->
@@ -395,7 +395,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" min="0" id="sales" name="sale" placeholder="Sales">
+                                <input step=".01" type="number" class="form-control" min="0" id="sales" name="sale" placeholder="Sales">
                             </div>
                         </div>
                     </div>
