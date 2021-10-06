@@ -103,8 +103,7 @@ Products
                 return response.data;
             },
         },
-        columns: [
-            {
+        columns: [{
                 data: "code",
                 title: "Code"
             },
@@ -119,7 +118,7 @@ Products
             {
                 data: null,
                 title: "Image",
-                render: function(data){
+                render: function(data) {
                     return `<img src="${data.image}" class="img-thumbnail" width="40px">`;
                 }
             },
@@ -326,17 +325,6 @@ Products
             </div>
             <div class="modal-body">
                 <form autocomplete="off" id="formProducts">
-                    <!-- ENTRADA PARA SELECCIONAR CATEGORÍA -->
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-users"></i>
-                            </div>
-                        </div>
-                        <select class="custom-select" id="selectCategory" name="category">
-                            <option value=""> Selecionar Categoria </option>
-                        </select>
-                    </div>
                     <!-- ENTRADA PARA EL CÓDIGO -->
                     <div class="form-group row">
                         <div class="col">
@@ -346,7 +334,20 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" id="code" name="code"  placeholder="Code">
+                                <input type="text" class="form-control" id="code" name="code" placeholder="Code">
+                            </div>
+                        </div>
+                        <!-- ENTRADA PARA SELECCIONAR CATEGORÍA -->
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                </div>
+                                <select class="custom-select" id="selectCategory" name="category">
+                                    <option value=""> Selecionar Categoria </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -359,12 +360,10 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" id="description" name="description"  placeholder="Description">
+                                <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                             </div>
                         </div>
-                    </div>
-                    <!-- ENTRADA PARA STOCK -->
-                    <div class="form-group row">
+                        <!-- ENTRADA PARA STOCK -->
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -372,7 +371,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" min="0" id="stock" name="stock"  placeholder="Stock">
+                                <input type="number" class="form-control" min="0" id="stock" name="stock" placeholder="Stock">
                             </div>
                         </div>
                     </div>
@@ -385,7 +384,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" min="0" id="cost" name="cost"  placeholder="Cost">
+                                <input type="number" class="form-control" min="0" id="cost" name="cost" placeholder="Cost">
                             </div>
                         </div>
                         <!-- ENTRADA PARA PRECIO VENTA -->
@@ -396,24 +395,7 @@ Products
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" min="0" id="sales" name="sale"  placeholder="Sales">
-                            </div>
-                            <br>
-                            <!-- CHECKBOX PARA PORCENTAJE -->
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <label>
-                                        <input type="checkbox" class="minimal porcentaje" checked>
-                                        Utilizar procentaje
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- ENTRADA PARA PORCENTAJE -->
-                            <div class="col-xs-6" style="padding:0">
-                                <div class="input-group">
-                                    <input type="number" class="form-control input-lg nuevoPorcentaje" min="0" value="40" required>
-                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                                </div>
+                                <input type="number" class="form-control" min="0" id="sales" name="sale" placeholder="Sales">
                             </div>
                         </div>
                     </div>
@@ -438,3 +420,22 @@ Products
     </div>
 </div>
 <?= $this->endSection() ?>
+
+<i class="fa fa-percent"></i>
+
+<!-- CHECKBOX PARA PORCENTAJE -->
+<div class="col-xs-6">
+    <div class="form-group">
+        <label>
+            <input type="checkbox" class="minimal porcentaje" checked>
+            Utilizar procentaje
+        </label>
+    </div>
+</div>
+<!-- ENTRADA PARA PORCENTAJE -->
+<div class="col-xs-6" style="padding:0">
+    <div class="input-group">
+        <input type="number" class="form-control input-lg nuevoPorcentaje" min="0" value="40" required>
+        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+    </div>
+</div>
