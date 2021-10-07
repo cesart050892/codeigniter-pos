@@ -43,6 +43,7 @@ $routes->get('dashboard', 'Dashboard::index');
 $routes->get('users', 'Users::index');
 $routes->get('categories', 'Categories::index');
 $routes->get('products', 'Products::index');
+$routes->get('units', 'Units::index');
 $routes->get('clients', 'Clients::index');
 
 /*
@@ -73,6 +74,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 
 	$routes->group('rols', ['namespace' => 'App\Controllers\Api'], function ($routes) {
 		$routes->get('/', 'Rols::index');
+	});
+
+	$routes->group('units', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Units::index');
+		$routes->get('delete/(:num)', 'Units::delete/$1');
+		$routes->get('edit/(:num)', 'Units::edit/$1');
+		$routes->post('/', 'Units::create');
+		$routes->post('update/(:num)', 'Units::update/$1');
 	});
 
 	$routes->group('categories', ['namespace' => 'App\Controllers\Api'], function ($routes) {

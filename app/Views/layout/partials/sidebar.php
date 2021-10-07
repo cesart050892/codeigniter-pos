@@ -29,14 +29,21 @@
 
     <!-- Nav Item - Users -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('users')?>">
+        <a class="nav-link" href="<?= base_url('users') ?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Usuarios</span></a>
     </li>
 
+    <!-- Nav Item - Units -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('units') ?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Unidades</span></a>
+    </li>
+
     <!-- Nav Item - Category -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('categories')?>">
+        <a class="nav-link" href="<?= base_url('categories') ?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Categorias</span></a>
     </li>
@@ -44,14 +51,14 @@
 
     <!-- Nav Item - Products -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('products')?>">
+        <a class="nav-link" href="<?= base_url('products') ?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Productos</span></a>
     </li>
 
     <!-- Nav Item - Clients -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('clients')?>">
+        <a class="nav-link" href="<?= base_url('clients') ?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Clientes</span></a>
     </li>
