@@ -79,10 +79,6 @@ class Products extends ResourceController
             'sale'
         ]));
         $entity->category_fk = $this->request->getPost('category');
-        if (!$this->model->save($entity)) {
-            return $this->failValidationErrors($this->model->errors());
-        }
-
         if ($file = $this->request->getFile('image')) {
             if ($this->validate([
                 "image" => 'is_image[image]|max_size[image,1024]' 
@@ -91,9 +87,12 @@ class Products extends ResourceController
                     if (!$new = $entity->saveProfileImage($file)) {
                         return $this->failValidationErrors('Image is no valid!');
                     }
-                    $entity->photo = $new;
+                    $entity->image = $new;
                 }
             }
+        }
+        if (!$this->model->save($entity)) {
+            return $this->failValidationErrors($this->model->errors());
         }
         return $this->respondCreated(['message' => 'ok!']);
     }

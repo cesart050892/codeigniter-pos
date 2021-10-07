@@ -21,7 +21,7 @@ class Products extends Entity
     public function getImage()
     {
         if ($this->attributes['image'] !== $this->default) {
-            $this->attributes['image'] = "products/{$this->attributes['image']}";
+            $this->attributes['image'] = "assets/uploads/img/products/{$this->attributes['image']}";
         }
         return $this->attributes['image'];
     }
