@@ -289,7 +289,7 @@ Products
         data.append('id', id);
         $.ajax({
             type: "POST",
-            url: base_ / urENTITY_APIl + "/api${}/update/" + id,
+            url: base_url + `api/${ENTITY_API}/update/` + id,
             data: data,
             processData: false,
             contentType: false,

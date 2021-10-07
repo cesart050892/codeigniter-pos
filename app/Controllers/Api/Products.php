@@ -96,4 +96,42 @@ class Products extends ResourceController
         }
         return $this->respondCreated(['message' => 'ok!']);
     }
+
+    public function update($id = null)
+    {
+        if (!$this->validate([
+            'stock' => 'required',
+            'description'   => 'required',
+            'cost'  => 'required',
+            'sale'  => 'required',
+            'category' => 'required'
+        ])) {
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+        $entity = new \App\Entities\Products();
+        $entity->fill($this->request->getPost([
+            'stock',
+            'description',
+            'cost',
+            'sale'
+        ]));
+        $entity->category_fk = $this->request->getPost('category');
+        $entity->id = $id;
+        if ($file = $this->request->getFile('image')) {
+            if ($this->validate([
+                "image" => 'is_image[image]|max_size[image,1024]' 
+            ])) {
+                if ($file->isValid()) {
+                    if (!$new = $entity->saveProfileImage($file)) {
+                        return $this->failValidationErrors('Image is no valid!');
+                    }
+                    $entity->image = $new;
+                }
+            }
+        }
+        if (!$this->model->save($entity)) {
+            return $this->failValidationErrors($this->model->errors());
+        }
+        return $this->respondUpdated(['message' => 'ok!']);
+    }
 }
