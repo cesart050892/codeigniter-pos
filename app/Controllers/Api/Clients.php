@@ -68,6 +68,9 @@ class Clients extends ResourceController
         $entity = new \App\Entities\Products();
         $entity->fill($this->request->getPost([
             'name',
+            'email',
+            'address',
+            'birthdate'
         ]));
         if (!$this->model->save($entity)) {
             return $this->failValidationErrors($this->model->errors());

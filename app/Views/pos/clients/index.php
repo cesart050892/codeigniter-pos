@@ -63,7 +63,7 @@ Clients
 
     const INPUT_MASK_BIRTHDATE = $("#birthdate")
 
-    INPUT_MASK_BIRTHDATE.inputmask("99/99/9999",{ "clearIncomplete": true })
+    INPUT_MASK_BIRTHDATE.inputmask("9999-99-99",{ "clearIncomplete": true })
 
     IMG_INPUT_APP.change(function() {
         image = this.files[0]
@@ -126,6 +126,10 @@ Clients
             {
                 data: "address",
                 title: "Address"
+            },
+            {
+                data: "birthdate",
+                title: "Birthdate"
             },
             {
                 data: null,
