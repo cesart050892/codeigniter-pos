@@ -72,7 +72,7 @@ class Users extends ResourceController
 
         $user->credential_fk = $authModel->insertID();
         $user->state = $this->request->getPost('state') ? $this->request->getPost('state') : 1;
-        $user = $user->fill($this->request->getPost(['name', 'rol_fk']));
+        $user = $user->fill($this->request->getPost(['name', 'rol_fk', 'surname']));
 
         if (!$this->model->save($user)) {
             return $this->failValidationErrors($this->model->errors());
