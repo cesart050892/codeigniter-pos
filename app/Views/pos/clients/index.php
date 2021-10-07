@@ -46,7 +46,7 @@ Clients
 
 <?= $this->section('scripts') ?>
 <script>
-    const ENTITY_API = 'Clients';
+    const ENTITY_API = 'clients';
     const TABLE_APP = $('#tableClients');
 
     const MODAL_APP = $('#modalClients');
@@ -297,7 +297,7 @@ Clients
                                         <i class="fa fa-user"></i>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Fullname">
+                                <input type="text" class="form-control" id="fullname" name="name" placeholder="Fullname">
                             </div>
                         </div>
                     </div>

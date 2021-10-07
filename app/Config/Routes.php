@@ -90,6 +90,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 		$routes->post('/', 'Products::create');
 		$routes->post('update/(:num)', 'Products::update/$1');
 	});
+
+	$routes->group('clients', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Clients::index');
+		$routes->get('delete/(:num)', 'Clients::delete/$1');
+		$routes->get('edit/(:num)', 'Clients::edit/$1');
+		$routes->post('/', 'Clients::create');
+		$routes->post('update/(:num)', 'Clients::update/$1');
+	});
 });
 
 /*
