@@ -82,6 +82,19 @@ class Products extends ResourceController
         if (!$this->model->save($entity)) {
             return $this->failValidationErrors($this->model->errors());
         }
-        return $this->respondUpdated(['message' => 'ok!']);
+
+        if ($file = $this->request->getFile('image')) {
+            if ($this->validate([
+                "image" => 'is_image[image]|max_size[image,1024]' 
+            ])) {
+                if ($file->isValid()) {
+                    if (!$new = $entity->saveProfileImage($file)) {
+                        return $this->failValidationErrors('Image is no valid!');
+                    }
+                    $entity->photo = $new;
+                }
+            }
+        }
+        return $this->respondCreated(['message' => 'ok!']);
     }
 }
