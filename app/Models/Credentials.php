@@ -25,8 +25,8 @@ class Credentials extends Model
 
     // Validation
     protected $validationRules      = [
-        'username'  => 'required|is_unique[credentials.username,{id},{id}]',
-        'email'     => 'valid_email'
+        'username'  => 'required|is_unique[credentials.username,id,{id}]',
+        'email'     => 'required|valid_email|is_unique[credentials.email,id,{id}]'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
