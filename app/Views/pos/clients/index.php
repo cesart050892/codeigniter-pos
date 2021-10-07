@@ -33,6 +33,9 @@ Clients
 <script type="text/javascript" src="<?= base_url('assets/plugins/datatables-min/js/datatables.min.js') ?>"></script>
 <!-- Select2 -->
 <script src="<?= base_url('assets/plugins/select2/js/select2.full.min.js') ?>"></script>
+<!-- InputMask -->
+<script src="<?= base_url('assets/plugins/inputmask/jquery.inputmask.min.js') ?>"></script>
+<script src="<?= base_url('assets/plugins/inputmask/bindings/inputmask.binding.js') ?>"></script>
 <?= $this->endSection() ?>
 
 <?= $this->section('plugins-css') ?>
@@ -57,6 +60,10 @@ Clients
     const IMG_THUMB_APP = $('#thumbsImageClients');
     const IMG_LABEL_APP = $('#labelFileClients');
     const IMG_INPUT_APP = $('#customFileClients')
+
+    const INPUT_MASK_BIRTHDATE = $("#birthdate")
+
+    INPUT_MASK_BIRTHDATE.inputmask("99/99/9999",{ "clearIncomplete": true })
 
     IMG_INPUT_APP.change(function() {
         image = this.files[0]
@@ -371,20 +378,3 @@ Clients
 <?= $this->endSection() ?>
 
 <i class="fa fa-percent"></i>
-
-<!-- CHECKBOX PARA PORCENTAJE -->
-<div class="col-xs-6">
-    <div class="form-group">
-        <label>
-            <input type="checkbox" class="minimal porcentaje" checked>
-            Utilizar procentaje
-        </label>
-    </div>
-</div>
-<!-- ENTRADA PARA PORCENTAJE -->
-<div class="col-xs-6" style="padding:0">
-    <div class="input-group">
-        <input type="number" class="form-control input-lg nuevoPorcentaje" min="0" value="40" required>
-        <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-    </div>
-</div>
