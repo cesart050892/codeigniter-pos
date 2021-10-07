@@ -124,7 +124,7 @@ class Users extends ResourceController
                 'name' => 'required',
             ))) {
                 $user = $this->model->getOne($id);
-                $user->fill($this->request->getPost(['name', 'email', 'rol_fk']));
+                $user->fill($this->request->getPost(['surname', 'name', 'email', 'rol_fk']));
                 $user->state = $this->request->getPost('state') ? $this->request->getPost('state') : 1;
 
                 if ($file = $this->request->getFile('image')) {

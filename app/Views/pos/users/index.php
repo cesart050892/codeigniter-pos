@@ -278,7 +278,8 @@ Users
         //IMG_LABEL_APP.text('Choose a image..')
 
         $('#selectRols').val(data.result.rol_fk).trigger('change');
-        $('#user-name').val(data.result.surname ? `${data.result.name} ${data.result.surname}` : data.result.name)
+        $('#user-name').val(data.result.name)
+        $('#surname').val(data.result.surname)
         $('#username').val(data.result.username)
         $('#user-email').val(data.result.email)
 
@@ -373,6 +374,16 @@ Users
                                     </div>
                                 </div>
                                 <input id="user-name" name="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input id="surname" name="surname" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
