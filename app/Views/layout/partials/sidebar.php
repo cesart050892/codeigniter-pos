@@ -72,6 +72,22 @@
         </div>
     </li>
 
+        <!-- Nav Item - Purchases Collapse Menu -->
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePurchases" aria-expanded="false" aria-controls="collapsePurchases">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Compras</span>
+        </a>
+        <div id="collapsePurchases" class="collapse" aria-labelledby="headingPurchases" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opciones:</h6>
+                <a class="collapse-item" href="<?= base_url('purchases') ?>">Crear</a>
+                <a class="collapse-item" href="<?= base_url('settings') ?>">Administrar</a>
+                <a class="collapse-item" href="<?= base_url('settings') ?>">Reportes</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

@@ -45,6 +45,7 @@ $routes->get('categories', 'Categories::index');
 $routes->get('products', 'Products::index');
 $routes->get('units', 'Units::index');
 $routes->get('clients', 'Clients::index');
+$routes->get('purchases', 'Purchases::index');
 
 /*
  * --------------------------------------------------------------------
@@ -107,6 +108,16 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 		$routes->post('/', 'Clients::create');
 		$routes->post('update/(:num)', 'Clients::update/$1');
 	});
+
+	$routes->group('purchases', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Purchases::index');
+		$routes->get('delete/(:num)', 'Purchases::delete/$1');
+		$routes->get('edit/(:num)', 'Purchases::edit/$1');
+		$routes->post('/', 'Purchases::create');
+		$routes->post('update/(:num)', 'Purchases::update/$1');
+	});
+
+	
 });
 
 /*
