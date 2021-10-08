@@ -51,11 +51,18 @@ class Products extends Migration
                 'constraint'     => 11,
                 'unsigned'       => true,
             ],
+            'unit_fk'    => [
+                'type'           => 'BIGINT',
+                'constraint'     => 11,
+                'unsigned'       => true,
+                'default'        => 1 
+            ],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addField("created_at DATETIME NULL DEFAULT NULL");
         $this->forge->addField("updated_at DATETIME NULL DEFAULT NULL");
         $this->forge->addField("deleted_at DATETIME NULL DEFAULT NULL");
+        $this->forge->addForeignKey('unit_fk', 'units', 'id', 'cascade', 'cascade');
         $this->forge->addForeignKey('category_fk', 'categories', 'id', 'cascade', 'cascade');
         $this->forge->createTable($this->name);
     }

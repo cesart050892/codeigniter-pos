@@ -24,15 +24,8 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Adminstracion
+        Paginas
     </div>
-
-    <!-- Nav Item - Users -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('users') ?>">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Usuarios</span></a>
-    </li>
 
     <!-- Nav Item - Units -->
     <li class="nav-item">
@@ -65,13 +58,13 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
             <span>Ventas</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Opciones:</h6>
+            <h6 class="collapse-header">Opciones:</h6>
                 <a class="collapse-item" href="buttons.html">Crear</a>
                 <a class="collapse-item" href="cards.html">Administrar</a>
                 <a class="collapse-item" href="cards.html">Reportes</a>
@@ -81,6 +74,25 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Administración</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Opciones:</h6>
+                <a class="collapse-item" href="<?= base_url('settings') ?>">Configuración</a>
+                <a class="collapse-item" href="<?= base_url('users') ?>">Usuarios</a>
+                <a class="collapse-item" href="<?= base_url('rols') ?>">Roles</a>
+                <a class="collapse-item" href="<?= base_url('cash') ?>">Cajas</a>
+                <a class="collapse-item" href="<?= base_url('logs') ?>">Logs</a>
+                <a class="collapse-item" href="<?= base_url('backups') ?>">Respaldo</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
