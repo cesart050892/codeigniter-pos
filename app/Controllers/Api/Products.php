@@ -61,7 +61,6 @@ class Products extends ResourceController
     public function create()
     {
         if (!$this->validate([
-            'code'  => 'required',
             'stock' => 'required',
             'description'   => 'required',
             'cost'  => 'required',
@@ -72,16 +71,22 @@ class Products extends ResourceController
         }
         $entity = new \App\Entities\Products();
         $entity->fill($this->request->getPost([
-            'code',
             'stock',
             'description',
             'cost',
             'sale'
         ]));
+        if($last = $this->model->getLast()){
+            $entity->code =  substr(strtoupper($last->category), 0, 3).$last->id;
+        }else{
+            $model = model('App\Models\Categories',false);
+            $category = $model->where('id', $this->request->getPost('category'))->first();
+            $entity->code =  substr(strtoupper($category->category), 0, 3)."01";
+        }
         $entity->category_fk = $this->request->getPost('category');
         if ($file = $this->request->getFile('image')) {
             if ($this->validate([
-                "image" => 'is_image[image]|max_size[image,1024]' 
+                "image" => 'is_image[image]|max_size[image,1024]'
             ])) {
                 if ($file->isValid()) {
                     if (!$new = $entity->saveProfileImage($file)) {
@@ -119,7 +124,7 @@ class Products extends ResourceController
         $entity->id = $id;
         if ($file = $this->request->getFile('image')) {
             if ($this->validate([
-                "image" => 'is_image[image]|max_size[image,1024]' 
+                "image" => 'is_image[image]|max_size[image,1024]'
             ])) {
                 if ($file->isValid()) {
                     if (!$new = $entity->saveProfileImage($file)) {

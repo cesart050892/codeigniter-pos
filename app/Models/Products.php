@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Model;
 
 class Products extends Model
@@ -91,6 +92,24 @@ class Products extends Model
         ')
             ->join('categories', 'products.category_fk = categories.id')
             ->where('products.id', $id)
+            ->first();
+    }
+
+    public function getLast()
+    {
+        return $this->select('
+                products.id,
+                products.description,
+                products.category_fk,
+                products.unit_fk,
+                categories.category 
+            ')
+            ->join('categories', 'products.category_fk = categories.id ')
+            ->whereIn('products.id', function (BaseBuilder $builder) {
+                return $builder
+                    ->select('MAX(id)', false)
+                    ->from('products');
+            })
             ->first();
     }
 }
