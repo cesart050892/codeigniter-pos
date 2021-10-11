@@ -77,11 +77,12 @@ class Products extends ResourceController
             'sale'
         ]));
         if($last = $this->model->getLast()){
-            $entity->code =  substr(strtoupper($last->category), 0, 3).$last->id;
+            $number = intval($last->id) + 1;
+            $entity->code =  substr(strtoupper($last->category), 0, 3).$number;
         }else{
             $model = model('App\Models\Categories',false);
             $category = $model->where('id', $this->request->getPost('category'))->first();
-            $entity->code =  substr(strtoupper($category->category), 0, 3)."01";
+            $entity->code =  substr(strtoupper($category->category), 0, 3)."1";
         }
         $entity->category_fk = $this->request->getPost('category');
         if ($file = $this->request->getFile('image')) {
