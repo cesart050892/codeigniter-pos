@@ -65,11 +65,14 @@ class Products extends Model
             products.image, 
             products.category_fk, 
             categories.category, 
+            products.unit_fk, 
+            units.unit, 
             products.created_at, 
             products.updated_at, 
             products.deleted_at
 		')
             ->join('categories', 'products.category_fk = categories.id')
+            ->join('units', 'products.unit_fk = units.id')
             ->findAll();
     }
 
@@ -86,11 +89,14 @@ class Products extends Model
             products.image, 
             products.category_fk, 
             categories.category, 
+            products.unit_fk, 
+            units.unit, 
             products.created_at, 
             products.updated_at, 
             products.deleted_at
         ')
             ->join('categories', 'products.category_fk = categories.id')
+            ->join('units', 'products.unit_fk = units.id')
             ->where('products.id', $id)
             ->first();
     }

@@ -161,31 +161,31 @@ Products
         responsive: true,
     });
 
-    /*
-         setInterval(function() {
-            table.ajax.reload();
-        }, 1000); 
-    */
 
-    function getSelect(data, field) {
-        data.select.html('')
-        $.get(base_url + 'api/' + data.url, (response) => {
+    /*     setInterval(function() {
+            table.ajax.reload();
+        }, 3000); */
+
+    getSelectCategory()
+    getSelectUnit()
+
+    function getSelectCategory(data, field) {
+        $('#selectCategory').html('')
+        $.get(base_url + 'api/categories', (response) => {
             $.each(response.data, function(key, value) {
-                object = Object.values(value)
-                data.select.append(`<option value="${object[0]}">${object[1]}</option>`);
+                $('#selectCategory').append(`<option value="${value.id}">${value.category}</option>`);
             });
         });
     }
 
-    getSelect({
-        select: $('#selectCategory'),
-        url: 'categories',
-    })
-
-    getSelect({
-        select: $('#selectUnit'),
-        url: 'units'
-    })
+    function getSelectUnit(data, field) {
+        $('#selectUnit').html('')
+        $.get(base_url + 'api/units', (response) => {
+            $.each(response.data, function(key, value) {
+                $('#selectUnit').append(`<option value="${value.id}">${value.unit}</option>`);
+            });
+        });
+    }
 
     function destroy(id) {
         swal.fire({
@@ -228,6 +228,8 @@ Products
     function renderSave(data = null) {
         MODAL_SUBMIT_APP.text('Save').removeClass('btn-warning').addClass('btn-primary')
         MODAL_FORM_APP.trigger("reset");
+        IMG_INPUT_APP.val('');
+        drawImage()
     }
 
     MODAL_FORM_APP.submit(function(e) {
@@ -280,12 +282,27 @@ Products
     }
 
     function renderUpdate(data) {
+        const { result } = data
         MODAL_SUBMIT_APP.text(data.btn).removeClass('btn-primary').addClass('btn-warning')
-        $("#code").val(data.result.code).prop('readonly', true)
-        $("#description").val(data.result.description)
-        $("#stock").val(data.result.stock)
-        $("#sales").val(data.result.sale)
-        $("#cost").val(data.result.cost)
+        $('#selectCategory').val(result.category_fk).trigger('change');
+        $('#selectUnit').val(result.unit_fk).trigger('change');
+        $("#description").val(result.description)
+        $("#stock").val(result.stock)
+        $("#sales").val(result.sale)
+        $("#cost").val(result.cost)
+        drawimage(result)
+    }
+
+    function drawimage(data = null) {
+        if (!data) {
+            IMG_INPUT_APP.val('');
+            IMG_LABEL_APP.text('Choose a image...')
+            IMG_THUMB_APP.attr("src", "<?= base_url('assets/img/undraw_product.png') ?>")
+        }else{
+            IMG_INPUT_APP.val('');
+            IMG_LABEL_APP.text('Choose a image...')
+            IMG_THUMB_APP.attr("src", data.image)
+        }
     }
 
     function ajaxUpdate(data) {
@@ -342,7 +359,7 @@ Products
                                         <i class="fa fa-users"></i>
                                     </div>
                                 </div>
-                                <select class="custom-select" id="selectUnit" name="Unit">
+                                <select class="custom-select" id="selectUnit" name="unit">
                                     <option value=""> Selecionar Unidad </option>
                                 </select>
                             </div>
@@ -360,73 +377,73 @@ Products
                             </div>
                         </div>
                     </div>
-            <!-- ENTRADA PARA LA DESCRIPCIÓN -->
-            <div class="form-group row">
-                <div class="col">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-user"></i>
+                    <!-- ENTRADA PARA LA DESCRIPCIÓN -->
+                    <div class="form-group row">
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="description" name="description" placeholder="Description">
-                    </div>
-                </div>
-                <!-- ENTRADA PARA STOCK -->
-                <div class="col">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-user"></i>
+                        <!-- ENTRADA PARA STOCK -->
+                        <div class="col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input type="number" class="form-control" min="0" id="stock" name="stock" placeholder="Stock">
                             </div>
                         </div>
-                        <input type="number" class="form-control" min="0" id="stock" name="stock" placeholder="Stock">
                     </div>
-                </div>
+                    <!-- ENTRADA PARA PRECIO COMPRA -->
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input step=".01" type="number" class="form-control" min="0" id="cost" name="cost" placeholder="Cost">
+                            </div>
+                        </div>
+                        <!-- ENTRADA PARA PRECIO VENTA -->
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <input step=".01" type="number" class="form-control" min="0" id="sales" name="sale" placeholder="Sales">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ENTRADA PARA SUBIR FOTO -->
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input accept="image/*" type="file" class="custom-file-input" id="customFileProducts" name="image">
+                            <label class="custom-file-label" for="validatedCustomFile" id="labelFileProducts">Choose Image...</label>
+                        </div>
+                        <p class="help-block pl-2">Max. size 2MB</p>
+                        <img src="assets/img/undraw_product.png" id="thumbsImageProducts" class="rounded mx-auto d-block" alt="Responsive image" style="width:100px">
+                    </div>
             </div>
-            <!-- ENTRADA PARA PRECIO COMPRA -->
-            <div class="form-group row">
-                <div class="col-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-user"></i>
-                            </div>
-                        </div>
-                        <input step=".01" type="number" class="form-control" min="0" id="cost" name="cost" placeholder="Cost">
-                    </div>
-                </div>
-                <!-- ENTRADA PARA PRECIO VENTA -->
-                <div class="col-xs-12 col-sm-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-user"></i>
-                            </div>
-                        </div>
-                        <input step=".01" type="number" class="form-control" min="0" id="sales" name="sale" placeholder="Sales">
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <button name="submit" type="submit" class="btn btn-primary btn-submit"></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                </button>
             </div>
-            <!-- ENTRADA PARA SUBIR FOTO -->
-            <div class="form-group">
-                <div class="custom-file">
-                    <input accept="image/*" type="file" class="custom-file-input" id="customFileProducts" name="image">
-                    <label class="custom-file-label" for="validatedCustomFile" id="labelFileProducts">Choose Image...</label>
-                </div>
-                <p class="help-block pl-2">Max. size 2MB</p>
-                <img src="assets/img/undraw_product.png" id="thumbsImageProducts" class="rounded mx-auto d-block" alt="Responsive image" style="width:100px">
-            </div>
+            </form>
         </div>
-        <div class="modal-footer">
-            <button name="submit" type="submit" class="btn btn-primary btn-submit"></button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                Close
-            </button>
-        </div>
-        </form>
     </div>
-</div>
 </div>
 <?= $this->endSection() ?>
 

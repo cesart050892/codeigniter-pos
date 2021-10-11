@@ -85,6 +85,7 @@ class Products extends ResourceController
             $entity->code =  substr(strtoupper($category->category), 0, 3)."1";
         }
         $entity->category_fk = $this->request->getPost('category');
+        $entity->unit_fk = $this->request->getPost('unit');
         if ($file = $this->request->getFile('image')) {
             if ($this->validate([
                 "image" => 'is_image[image]|max_size[image,1024]'
@@ -122,6 +123,7 @@ class Products extends ResourceController
             'sale'
         ]));
         $entity->category_fk = $this->request->getPost('category');
+        $entity->unit_fk = $this->request->getPost('unit');
         $entity->id = $id;
         if ($file = $this->request->getFile('image')) {
             if ($this->validate([
