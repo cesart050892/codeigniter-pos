@@ -39,4 +39,34 @@ class Settings extends Model
     protected $afterFind            = [];
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
+
+    // Functions
+    public function setSetting($key, $setting)
+    {
+        $old = $this->where('key', $key)->first();
+
+        if ($old) {
+            $old->value = $setting;
+            if ($old->hasChange()) {
+                $this->save($old);
+            }
+            return;
+        }
+
+        $set = new \App\Entities\Settings();
+        $set->key = $key;
+        $set->value = $setting;
+        $this->save($set);
+    }
+
+    public function getSetting($key)
+    {
+        $setting = $this->where('key', $key)->first();
+
+        if ($setting) {
+            return $setting->value;
+        } else {
+            return null;
+        }
+    }
 }

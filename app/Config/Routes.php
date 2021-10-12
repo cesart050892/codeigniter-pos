@@ -61,6 +61,14 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
 		$routes->post('login', 'Auth::login');
 	});
 
+	$routes->group('settings', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+		$routes->get('/', 'Settings::index');
+		$routes->get('delete/(:num)', 'Settings::delete/$1');
+		$routes->get('edit/(:num)', 'Settings::edit/$1');
+		$routes->post('/', 'Settings::create');
+		$routes->post('update/(:num)', 'Settings::update/$1');
+	});
+
 	$routes->group('me', ['namespace' => 'App\Controllers\Api'], function ($routes) {
 		$routes->get('/', 'Users::profile');
 		$routes->get('logout', 'Auth::logout');
