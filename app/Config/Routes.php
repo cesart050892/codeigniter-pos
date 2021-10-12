@@ -46,6 +46,8 @@ $routes->get('products', 'Products::index');
 $routes->get('units', 'Units::index');
 $routes->get('clients', 'Clients::index');
 $routes->get('purchases', 'Purchases::index');
+$routes->get('settings', 'Settings::index');
+
 
 /*
  * --------------------------------------------------------------------
