@@ -290,10 +290,10 @@ Products
         $("#stock").val(result.stock)
         $("#sales").val(result.sale)
         $("#cost").val(result.cost)
-        drawimage(result)
+        drawImage(result)
     }
 
-    function drawimage(data = null) {
+    function drawImage(data = null) {
         if (!data) {
             IMG_INPUT_APP.val('');
             IMG_LABEL_APP.text('Choose a image...')
