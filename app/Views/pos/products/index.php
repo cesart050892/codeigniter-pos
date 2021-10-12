@@ -170,7 +170,7 @@ Products
     getSelectUnit()
 
     function getSelectCategory(data, field) {
-        $('#selectCategory').html('')
+        $('#selectCategory').val('').trigger("change");
         $.get(base_url + 'api/categories', (response) => {
             $.each(response.data, function(key, value) {
                 $('#selectCategory').append(`<option value="${value.id}">${value.category}</option>`);
@@ -179,7 +179,7 @@ Products
     }
 
     function getSelectUnit(data, field) {
-        $('#selectUnit').html('')
+        $('#selectUnit').val('').trigger("change");
         $.get(base_url + 'api/units', (response) => {
             $.each(response.data, function(key, value) {
                 $('#selectUnit').append(`<option value="${value.id}">${value.unit}</option>`);
@@ -228,6 +228,8 @@ Products
     function renderSave(data = null) {
         MODAL_SUBMIT_APP.text('Save').removeClass('btn-warning').addClass('btn-primary')
         MODAL_FORM_APP.trigger("reset");
+        $('#selectCategory').val('').trigger("change");
+        $('#selectUnit').val('').trigger("change");
         IMG_INPUT_APP.val('');
         drawImage()
     }
